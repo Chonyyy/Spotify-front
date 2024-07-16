@@ -1,0 +1,45 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    background-image: url('../music/ken-cheung-KonWFWUaAuk-unsplash.jpg');
+}
+.upload-container {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 400px;
+}
+.upload-container h2 {
+    margin-bottom: 20px;
+}
+.upload-box {
+    border: 2px dashed #5773ff;
+    border-radius: 10px;
+    padding: 40px;
+    cursor: pointer;
+    color: #5773ff;
+    margin-bottom: 20px;
+}
+.upload-box i {
+    font-size: 50px;
+    margin-bottom: 10px;
+}
+.upload-box:hover {
+    background-color: #f7f7f7;
+}
+.upload-box input {
+    display: none;
+}
+.metadata {
+    text-align: left;
+    margin-top: 20px;
+}
+.metadata p {
+    margin: 5px 0;
+}

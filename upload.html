@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Music</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href='styles/style_upload.css' rel='stylesheet'>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+</head>
+<body>
+
+<div class="upload-container">
+    <h2>Upload Your Music</h2>
+    <div class="upload-box" id="upload-box">
+        <i class="fas fa-cloud-upload-alt"></i>
+        <p>Drag & Drop your music file here or click to upload</p>
+        <input type="file" id="file-input" accept="audio/*">
+    </div>
+    <div class="metadata" id="metadata">
+        <h3>Metadata:</h3>
+        <p><strong>Title:</strong> <span id="meta-title">N/A</span></p>
+        <p><strong>Artist:</strong> <span id="meta-artist">N/A</span></p>
+        <p><strong>Album:</strong> <span id="meta-album">N/A</span></p>
+        <p><strong>Genre:</strong> <span id="meta-genre">N/A</span></p>
+        <p><strong>Address:</strong> <span id="meta-address">N/A</span></p>
+        <p><strong>Image:</strong> <img id="meta-img" src="" alt="Cover Image" style="max-width: 100px; max-height: 100px;" /></p>
+    </div>
+    <button id="upload-button">Upload</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
+
+<script>
+    const uploadBox = document.getElementById('upload-box');
+    const fileInput = document.getElementById('file-input');
+    const metaTitle = document.getElementById('meta-title');
+    const metaArtist = document.getElementById('meta-artist');
+    const metaAlbum = document.getElementById('meta-album');
+    const metaGenre = document.getElementById('meta-genre');
+    const metaAddress = document.getElementById('meta-address');
+    const metaImg = document.getElementById('meta-img');
+    const uploadButton = document.getElementById('upload-button');
+
+    let selectedFile;
+
+    uploadBox.addEventListener('click', () => {
+        fileInput.click();
+    });
+
+    fileInput.addEventListener('change', async (event) => {
+        handleFiles(event.target.files);
+    });
+
+    uploadBox.addEventListener('dragover', (event) => {
+        event.preventDefault();
+        uploadBox.style.backgroundColor = '#f7f7f7';
+    });
+
+    uploadBox.addEventListener('dragleave', (event) => {
+        uploadBox.style.backgroundColor = '#fff';
+    });
+
+    uploadBox.addEventListener('drop', (event) => {
+        event.preventDefault();
+        uploadBox.style.backgroundColor = '#fff';
+        handleFiles(event.dataTransfer.files);
+    });
+
+    async function handleFiles(files) {
+        selectedFile = files[0];
+        if (selectedFile && selectedFile.type.startsWith('audio/')) {
+            try {
+                jsmediatags.read(selectedFile, {
+                    onSuccess: function(tag) {
+                        metaTitle.textContent = tag.tags.title || 'N/A';
+                        metaArtist.textContent = tag.tags.artist || 'N/A';
+                        metaAlbum.textContent = tag.tags.album || 'N/A';
+                        metaGenre.textContent = tag.tags.genre || 'N/A';
+                        metaAddress.textContent = selectedFile.name;
+
+                        if (tag.tags.picture) {
+                            let base64String = "";
+                            for (let i = 0; i < tag.tags.picture.data.length; i++) {
+                                base64String += String.fromCharCode(tag.tags.picture.data[i]);
+                            }
+                            const base64 = "data:" + tag.tags.picture.format + ";base64," + window.btoa(base64String);
+                            metaImg.src = base64;
+                        } else {
+                            metaImg.src = "";
+                        }
+                    },
+                    onError: function(error) {
+                        console.error("Error reading metadata: ", error);
+                        alert('Failed to read metadata.');
+                    }
+                });
+            } catch (error) {
+                console.error("Error parsing file:", error);
+                alert('Failed to read metadata.');
+            }
+        } else {
+            alert('Please upload a valid audio file.');
+        }
+    }
+
+    uploadButton.addEventListener('click', async () => {
+        if (!selectedFile) {
+            alert('Please select a file first.');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+        formData.append('title', metaTitle.textContent);
+        formData.append('artist', metaArtist.textContent);
+        formData.append('album', metaAlbum.textContent);
+        formData.append('genre', metaGenre.textContent);
+        formData.append('address', metaAddress.textContent);
+
+        if (metaImg.src) {
+            const response = await fetch(metaImg.src);
+            const blob = await response.blob();
+            formData.append('image', blob, 'cover.jpg');
+        }
+
+        try {
+            const response = await axios.post('http://localhost:8000/songs/upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            const result = await response.data;
+            alert('Upload successful!');
+        } catch (error) {
+            console.error('Error uploading file:', error);
+            alert('Upload failed.');
+        }
+    });
+</script>
+
+</body>
+</html>
