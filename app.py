@@ -1,22 +1,22 @@
-from fastapi import FastAPI, HTTPException, File, UploadFile, Form
-from fastapi.responses import FileResponse
+from fastapi import FastAPI, HTTPException, File, UploadFile, Form, Request
+from fastapi.responses import FileResponse, StreamingResponse
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
-from fastapi.middleware.cors import CORSMiddleware
-import os
+import os, re, time
 import shutil
-from PIL import Image
-import io
 
 app = FastAPI()
 
 # Configuración del middleware de CORS
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Permitir todos los orígenes
+    allow_origins=["*"],  # Ajusta esto según tus necesidades de seguridad
     allow_credentials=True,
-    allow_methods=["*"],  # Permitir todos los métodos
-    allow_headers=["*"],  # Permitir todos los encabezados
+    allow_methods=["*"],
+    allow_headers=["*"],
+    expose_headers=["Content-Range", "Accept-Ranges", "Content-Length", "Content-Type", "X-File-Size"]
 )
 
 # Modelos de datos
@@ -29,7 +29,6 @@ class Song(BaseModel):
     address: str
     img: str
     
-
 # Datos en memoria (esto normalmente vendría de una base de datos)
 songs = [
     {
@@ -106,11 +105,11 @@ def delete_song(song_id: int):
     return {"message": "Song deleted"}
 
 @app.get("/songs/genre/{genre}", response_model=List[Song])
-def get_songs_by_genre(genre: str):
+def get_songs_by_genre(genre: str, limit: int = 4, offset: int = 0):
     filtered_songs = [song for song in songs if song["genre"].lower() == genre.lower()]
     if not filtered_songs:
         raise HTTPException(status_code=404, detail="No songs found for the specified genre")
-    return filtered_songs
+    return filtered_songs[offset:offset + limit]
 
 @app.get("/songs/download/{song_id}")
 def download_song(song_id: int):
@@ -118,6 +117,55 @@ def download_song(song_id: int):
     if song is None:
         raise HTTPException(status_code=404, detail="Song not found")
     return FileResponse(song["address"], media_type='audio/mpeg', filename=song["title"])
+
+@app.get("/songs/stream/{song_title}")
+def stream_song(song_title: str, request: Request):
+    # Encuentra la URL del archivo de la canción
+    song_url = [s["address"] for s in songs if s["title"] == song_title]
+    if not song_url:
+        raise HTTPException(status_code=404, detail="Song not found")
+    
+    file_path = song_url[0]
+    if not os.path.exists(file_path):
+        raise HTTPException(status_code=404, detail="Song file not found")
+    
+    file_size = os.path.getsize(file_path)
+    print(str(file_size))
+    range_header = request.headers.get('Range')
+    print(range_header)
+    start = 0
+    end = file_size - 1
+
+    if range_header:
+        range_match = re.match(r'bytes=(\d+)-(\d+)?', range_header)
+        if range_match:
+            start = int(range_match.group(1))
+            end = int(range_match.group(2)) if range_match.group(2) else end
+
+    def iterfile():
+        with open(file_path, mode="rb") as file_like:
+            file_like.seek(start)
+            chunk_size = 1024*1024
+            while chunk_size > 0:
+                chunk = file_like.read(min(8192, chunk_size))
+                if not chunk:
+                    break
+                yield chunk
+                chunk_size -= len(chunk)
+    
+    return StreamingResponse(
+        iterfile(),
+        status_code=206,
+        media_type="audio/mp3",
+        headers={
+            'Content-Range': f'bytes {start}-{end}/{file_size}',
+            'Accept-Ranges': 'bytes',
+            # 'Content-Length': str(end - start + 1),
+            'Content-Type': 'audio/mpeg',
+            'X-File-Size': str(file_size)
+        }
+        
+    )
 
 @app.post("/songs/upload", response_model=Song)
 async def upload_song(
@@ -129,6 +177,7 @@ async def upload_song(
     address: str = Form(...),
     image: UploadFile = File(None)
 ):
+    
     
     file_location = f"music/{file.filename}"
     with open(file_location, "wb") as f:
@@ -152,6 +201,41 @@ async def upload_song(
     songs.append(new_song)
     return new_song
 
+@app.post("/songs/upload_chunks", response_model=Song)
+async def upload_song(
+    file: UploadFile = File(...),
+    title: str = Form(...),
+    artist: str = Form(...),
+    album: str = Form(...),
+    genre: str = Form(...),
+    address: str = Form(...),
+    image: UploadFile = File(None)
+):
+    chunk_size = 1024 * 1024  # 1MB chunks
+    file_location = f"music/{file.filename}"
+    
+    with open(file_location, "wb") as f:
+        while chunk := await file.read(chunk_size):
+            f.write(chunk)
+
+    img_location = ""
+    if image:
+        img_location = f"music/{file.filename}_cover.jpg"
+        with open(img_location, "wb") as img_file:
+            while chunk := await image.read(chunk_size):
+                img_file.write(chunk)
+
+    new_song = {
+        "id": len(songs) + 1,
+        "title": title,
+        "artist": artist,
+        "genre": genre,
+        "album": album,
+        "address": file_location,
+        "img": img_location
+    }
+    songs.append(new_song)
+    return new_song
 
 @app.get("/songs/play/{song_id}")
 def play_song(song_id: int):

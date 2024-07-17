@@ -5,7 +5,7 @@ from mutagen.id3 import ID3, APIC, ID3NoHeaderError
 from mutagen.mp4 import MP4
 
 # Ruta del directorio con los archivos MP3 y M4A
-directory_path = 'music'
+directory_path = '../music'
 
 def extract_cover_image(audio_file_path):
     """Extrae la imagen de portada de un archivo MP3 o M4A y la devuelve como datos binarios."""

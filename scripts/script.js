@@ -1,8 +1,8 @@
-$(document).ready(function() {
-    const apiUrl = 'http://localhost:8000/songs';
+$(document).ready(function () {
+    const apiUrl = 'http://localhost:8001/songs';
     let audioElement = $('<audio>', { id: 'audio-player', controls: false }).appendTo('body')[0];
     let currentPage = 1;
-    const pageSize = 4;
+    const pageSize = 4;   
 
     function fetchSongs(page) {
         axios.get(apiUrl, { params: { limit: pageSize, offset: (page - 1) * pageSize } })
@@ -41,7 +41,7 @@ $(document).ready(function() {
                 });
 
                 // Agrega el manejador de eventos para actualizar el reproductor al hacer clic en una canción
-                $('.music-list .item').on('click', function() {
+                $('.music-list .item').on('click', function () {
                     const songId = $(this).data('song-id');
                     const songTitle = $(this).data('song-title');
                     const songArtist = $(this).data('song-artist');
@@ -52,7 +52,7 @@ $(document).ready(function() {
                 });
 
                 // Agrega el manejador de eventos para descargar la canción al hacer clic en el ícono
-                $('.music-list .bxs-plus-square').on('click', function() {
+                $('.music-list .bxs-plus-square').on('click', function () {
                     const songItem = $(this).closest('.item');
                     const songUrl = songItem.data('song-url');
                     downloadSong(songUrl);
@@ -62,7 +62,7 @@ $(document).ready(function() {
                 $('#prev-page').toggleClass('disabled', page === 1);
                 $('#next-page').toggleClass('disabled', songs.length < pageSize);
                 $('#page-info').text(`Page ${page}`);
-                
+
             })
             .catch(error => {
                 console.error('Error fetching songs:', error);
@@ -74,17 +74,18 @@ $(document).ready(function() {
         $('.music-player .song-info img').attr('src', songImage);
         $('.music-player .description h3').text(songTitle);
         $('.music-player .description h5').text(songArtist);
-        $('.music-player .description p').text('Best of 2024'); 
-        
-        // Configura el elemento de audio
-        audioElement.src = songUrl;
-        audioElement.play();
+        $('.music-player .description p').text('Best of 2024');
+
+        const url = `${apiUrl}/stream/${encodeURIComponent(songTitle)}`;
+        const audioElement = document.getElementById('audio-player');
+        audioElement.src = url
+        audioElement.play()
 
         // Actualiza el progreso de la canción
         setInterval(updateProgress, 1000);
 
         // Botones de control
-        $('#play-btn').on('click', function() {
+        $('#play-btn').on('click', function () {
             if (audioElement.paused) {
                 audioElement.play();
                 $(this).removeClass('bx bxs-right-arrow').addClass('bx bxs-pause');
@@ -94,24 +95,24 @@ $(document).ready(function() {
             }
         });
 
-        $('#prev-btn').on('click', function() {
+        $('#prev-btn').on('click', function () {
             // Implementar funcionalidad para la canción anterior
         });
 
-        $('#next-btn').on('click', function() {
+        $('#next-btn').on('click', function () {
             // Implementar funcionalidad para la siguiente canción
         });
 
-        $('#repeat-btn').on('click', function() {
+        $('#repeat-btn').on('click', function () {
             audioElement.loop = !audioElement.loop;
             $(this).toggleClass('active', audioElement.loop);
         });
 
-        $('#shuffle-btn').on('click', function() {
+        $('#shuffle-btn').on('click', function () {
             // Implementar funcionalidad para reproducir aleatoriamente
         });
 
-        $('#lyrics-btn').on('click', function() {
+        $('#lyrics-btn').on('click', function () {
             // Implementar funcionalidad para mostrar las letras de la canción
         });
     }
@@ -166,7 +167,7 @@ $(document).ready(function() {
                 musicList.append(songItem);
 
                 // Agrega el manejador de eventos para actualizar el reproductor al hacer clic en la canción encontrada
-                $('.music-list .item').on('click', function() {
+                $('.music-list .item').on('click', function () {
                     const songId = $(this).data('song-id');
                     const songTitle = $(this).data('song-title');
                     const songArtist = $(this).data('song-artist');
@@ -177,7 +178,7 @@ $(document).ready(function() {
                 });
 
                 // Agrega el manejador de eventos para descargar la canción al hacer clic en el ícono
-                $('.music-list .bxs-plus-square').on('click', function() {
+                $('.music-list .bxs-plus-square').on('click', function () {
                     const songItem = $(this).closest('.item');
                     const songUrl = songItem.data('song-url');
                     downloadSong(songUrl);
@@ -189,9 +190,9 @@ $(document).ready(function() {
             });
     }
 
-    function fetchSongsByGenre(genre) {
+    function fetchSongsByGenre(genre, page) { //TODO: Arreglar esto
         const url = `${apiUrl}/genre/${encodeURIComponent(genre)}`;
-        axios.get(url)
+        axios.get(url, { params: { limit: pageSize, offset: (page - 1) * pageSize } })
             .then(response => {
                 const songs = response.data;
                 const musicList = $('.music-list .items');
@@ -226,7 +227,7 @@ $(document).ready(function() {
                 });
 
                 // Agrega el manejador de eventos para actualizar el reproductor al hacer clic en una canción
-                $('.music-list .item').on('click', function() {
+                $('.music-list .item').on('click', function () {
                     const songId = $(this).data('song-id');
                     const songTitle = $(this).data('song-title');
                     const songArtist = $(this).data('song-artist');
@@ -237,7 +238,7 @@ $(document).ready(function() {
                 });
 
                 // Agrega el manejador de eventos para descargar la canción al hacer clic en el ícono
-                $('.music-list .bxs-plus-square').on('click', function() {
+                $('.music-list .bxs-plus-square').on('click', function () {
                     const songItem = $(this).closest('.item');
                     const songUrl = songItem.data('song-url');
                     downloadSong(songUrl);
@@ -258,30 +259,32 @@ $(document).ready(function() {
         document.body.removeChild(link);
     }
 
-    $('.search button').on('click', function() {
+    $('.search button').on('click', function () {
         const query = $('#search-input').val();
         fetchSongSearch(query);
     });
 
     // Agrega el manejador de eventos para los elementos de género
-    $('.genres .item').on('click', function() {
+    $('.genres .item').on('click', function () {
         const genre = $(this).text().trim();
-        fetchSongsByGenre(genre);
+        currentPage = 1
+        fetchSongsByGenre(genre,currentPage);
     });
 
-    $('.genres .header').on('click', function() {
-        fetchSongs();
+    $('.genres .header').on('click', function () {
+        currentPage = 1
+        fetchSongs(currentPage);
     });
 
     // Manejo de eventos de paginación
-    $('#prev-page').on('click', function() {
+    $('#prev-page').on('click', function () {
         if (currentPage > 1) {
             currentPage--;
             fetchSongs(currentPage);
         }
     });
 
-    $('#next-page').on('click', function() {
+    $('#next-page').on('click', function () {
         currentPage++;
         fetchSongs(currentPage);
     });
