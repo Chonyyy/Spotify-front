@@ -1,6 +1,7 @@
 $(document).ready(function () {
-    const apiUrl = 'http://localhost:8001/songs';
+    const apiUrl = 'http://localhost:8000/songs';
     let audioElement = $('<audio>', { id: 'audio-player', controls: false }).appendTo('body')[0];
+    const audioElementPedro = document.getElementById('audio-pedro');
     let currentPage = 1;
     const pageSize = 4;   
 
@@ -258,6 +259,18 @@ $(document).ready(function () {
         link.click();
         document.body.removeChild(link);
     }
+
+    document.getElementById('listen-pedro').addEventListener('click', function() {
+        const url = `${apiUrl}/stream/${encodeURIComponent("Pedro")}`;
+        audioElementPedro.src = url
+        audioElementPedro.play();
+    });
+
+    $('#pedro-hert').on('click', function () {
+        audioElementPedro.pause();
+        
+    });
+    
 
     $('.search button').on('click', function () {
         const query = $('#search-input').val();

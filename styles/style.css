@@ -181,7 +181,7 @@ body {
 }
 
 .container main .trending .left .info h2 {
-	font-size: 56px;
+	font-size: 50px;
 	margin-bottom: 8px;
 }
 
@@ -228,7 +228,7 @@ body {
 .container main .playlist {
 	margin-top: 14px;
 	display: flex;
-	gap: 20px;
+	gap: 10px;
 }
 
 #navi {
@@ -244,6 +244,8 @@ body {
     align-items: center;
     cursor: pointer;
 }
+
+
 
 #search-button {
     padding: 8px 12px;
@@ -272,6 +274,13 @@ body {
 	align-items: center;
 	justify-content: space-between;
 	margin-bottom: 30px;
+}
+.container main .playlist .music-list .pagination{
+	padding: 10px 8px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 6px;
 }
 
 .container main .playlist .genres .header a,
@@ -323,13 +332,19 @@ body {
 .container main .playlist .genres .items .item:nth-child(6) {
 	background-color: #5547a5;
 }
+.container main .playlist .genres .items .item:nth-child(7) {
+	background-color: #2c2263;
+}
+.container main .playlist .genres .items .item:nth-child(8) {
+	background-color: #a54779;
+}
 
 .container main .playlist .music-list {
 	background-color: #202026;
 	padding: 20px;
 	color: #fff;
 	border-radius: 6px;
-	width: 65%;
+	width: 80%;
 }
 
 .container main .playlist .music-list .items .item {
