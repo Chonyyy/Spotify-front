@@ -21,7 +21,8 @@ app.add_middleware(
 
 # Modelos de datos
 class Song(BaseModel):
-    id: int
+    # id: int
+    filr: bin
     title: str
     artist: str
     genre: str
@@ -41,17 +42,17 @@ songs = [
     }
 ]
     
-@app.get("/gw/get-songs", response_model=List[Song])
+@app.get("/get-songs", response_model=List[Song])
 def get_songs(limit: int = 4, offset: int = 0):
     # Devuelve un subconjunto de canciones basado en limit y offset
     return songs[offset:offset + limit]
 
-@app.post("/gw/save-song", response_model=Song)
+@app.post("/save-song", response_model=Song)
 def save_song(song: Song):
     songs.append(song.dict())
     return song
 
-@app.get("/gw/get-songs-by-title/{song_title}", response_model=Song)
+@app.post("/get-songs-by-title/{song_title}", response_model=Song)
 def get_songs_by_title(song_title: str):
     print(song_title)
     # Busca la canción ignorando mayúsculas y minúsculas
@@ -60,34 +61,38 @@ def get_songs_by_title(song_title: str):
         raise HTTPException(status_code=404, detail="Song not found")
     return song
 
-@app.get("/gw/get-songs-by-genre/{genre}", response_model=List[Song])
+@app.post("/get-songs-by-genre/{genre}", response_model=List[Song])
 def get_songs_by_genre(genre: str, limit: int = 4, offset: int = 0):
     filtered_songs = [song for song in songs if song["genre"].lower() == genre.lower()]
     if not filtered_songs:
         raise HTTPException(status_code=404, detail="No songs found for the specified genre")
     return filtered_songs[offset:offset + limit]
 
-@app.get("/gw/get-songs-by-artist/{artist}", response_model=List[Song]) #TODO Hacer esto en el back
+@app.post("/get-songs-by-artist/{artist}", response_model=List[Song]) #TODO Hacer esto en el back
 def get_songs_by_artist(genre: str, limit: int = 4, offset: int = 0):
     filtered_songs = [song for song in songs if song["genre"].lower() == genre.lower()]
     if not filtered_songs:
         raise HTTPException(status_code=404, detail="No songs found for the specified genre")
     return filtered_songs[offset:offset + limit]
 
-@app.get("/gw/store-song-file")
+@app.post("/store-song-file")
 def store_song_file(song_title: str, request: Request):
     return "Ok"
 
-@app.get("/songs/download/{song_id}")
-def download_song(song_id: int):
-    song = next((song for song in songs if song["id"] == song_id), None)
-    if song is None:
-        raise HTTPException(status_code=404, detail="Song not found")
-    return FileResponse(song["address"], media_type='audio/mpeg', filename=song["title"])
+@app.post("/store-song-file")
+def store_song_file(song_title: str, request: Request):
+    return "Ok"
+
+
+
+# @app.get("/songs/download/{song_id}")
+# def download_song(song_id: int):
+#     song = next((song for song in songs if song["id"] == song_id), None)
+#     if song is None:
+#         raise HTTPException(status_code=404, detail="Song not found")
+#     return FileResponse(song["address"], media_type='audio/mpeg', filename=song["title"])
 
     
-
-
 # @app.get("/songs/play/{song_id}")
 # def play_song(song_id: int):
 #     song = next((song for song in songs if song["id"] == song_id), None)
