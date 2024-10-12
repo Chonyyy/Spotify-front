@@ -1,12 +1,13 @@
 $(document).ready(function () {
-    const apiUrl = 'http://localhost:8000/songs';
+    const apiUrl = 'http://localhost:8002/gw';
     let audioElement = $('<audio>', { id: 'audio-player', controls: false }).appendTo('body')[0];
     const audioElementPedro = document.getElementById('audio-pedro');
     let currentPage = 1;
     const pageSize = 4;   
 
     function fetchSongs(page) {
-        axios.get(apiUrl, { params: { limit: pageSize, offset: (page - 1) * pageSize } })
+        // axios.get(`${apiUrl}/get-songs`, { params: { limit: pageSize, offset: (page - 1) * pageSize } })
+        axios.get(`${apiUrl}/get-songs`)    
             .then(response => {
                 const songs = response.data;
                 const musicList = $('.music-list .items');
@@ -192,8 +193,9 @@ $(document).ready(function () {
     }
 
     function fetchSongsByGenre(genre, page) { //TODO: Arreglar esto
-        const url = `${apiUrl}/genre/${encodeURIComponent(genre)}`;
-        axios.get(url, { params: { limit: pageSize, offset: (page - 1) * pageSize } })
+        const url = `${apiUrl}/get-songs-by-genre`;
+        // axios.get(url, { params: { limit: pageSize, offset: (page - 1) * pageSize } })
+        axios.get(url,  { "genre":"g1" })
             .then(response => {
                 const songs = response.data;
                 const musicList = $('.music-list .items');
