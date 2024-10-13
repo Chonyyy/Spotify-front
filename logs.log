@@ -1,5 +1,0 @@
-INFO:__main__:Receiving multicast messages from 224.1.1.3 for role gateway
-INFO:__main__:Estoy en el try
-INFO:__main__:Discovered node: 172.17.0.3 with role: gateway
-INFO:__main__:Detected leader: 172.17.0.3, 685966170926969970295131996809687121594286967556
-INFO:__main__:Discovered entry point: 172.17.0.3

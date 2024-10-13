@@ -130,12 +130,11 @@
             'artist': metaArtist.textContent,
             'album': metaAlbum.textContent,
             'genre': metaGenre.textContent,
-            'total_size': selectedFile,
             'file': selectedFile
         }
 
         try {
-            const response = await axios.post('http://localhost:8000/save-song', payload)
+            const response = await axios.post('http://localhost:8000/save-song', formData)
         
         } catch (error) {
             console.error('Error uploading file:', error);

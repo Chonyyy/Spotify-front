@@ -1,13 +1,12 @@
 from fastapi import FastAPI, HTTPException, File, UploadFile, Form, Request
-from fastapi.responses import FileResponse, StreamingResponse
+from fastapi.responses import FileResponse, StreamingResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware import Middleware
 from pydantic import BaseModel
 from typing import List
-import os, time, json, requests
+import os, time, json, requests, socket, logging
 from fastapi import FastAPI
 from discovery import discover_gateway  
-import requests, logging
 
 app = FastAPI()
 
@@ -69,11 +68,48 @@ def get_songs(limit: int = 4, offset: int = 0):
     # return songs[offset:offset + limit]
 
 @app.post("/save-song")
-def save_song(song:dict):
+def save_song(
+        file: UploadFile = File(...),
+        title: str = Form(...),
+        artist: str = Form(...),
+        album: str = Form(...),
+        genre: str = Form(...)
+    ):
     base_url = get_leader_url() 
-    file = song['file']
-    response = requests.post(f'{base_url}/store-song-file', json = song)
-    return response.status_code
+    logger.info(f'Storing song {title}')
+    response = requests.post(f'{base_url}/store-song-file', json={'title': title, 'genre': genre, 'album': album, 'artist':artist})
+
+    # Recibir IP y puerto del socket
+    socket_info = response.json()  
+    ip = socket_info.get('ip')
+    port = socket_info.get('port')
+
+    if not ip or not port:
+        return JSONResponse(content={'status': 'error', 'message': 'No se recibió información del socket'}, status_code=500)
+    
+    logger.info(f'Socket received: {ip}:{port}')
+    # Enviar archivo en chunks de 1024 bytes al socket de uno en uno
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+            sock.connect((ip, port))  # Conectar al socket
+            chunk_size = 50000  # Tamaño del chunk en bytes
+            
+            # Leer el archivo por chunks y enviar de uno en uno
+            while True:
+                chunk = file.file.read(chunk_size)
+                if not chunk:
+                    break
+                logger.info(f'Sending chunk {chunk}')
+                sock.send(chunk)  # Enviar el chunk individual
+                logger.info(f'Sent chunk of size {len(chunk)} bytes to {ip}:{port}')
+                # Esperar un poco entre envíos si es necesario
+                time.sleep(0.1)  # Ajusta este tiempo según sea necesario
+                
+        return {'status': 'success'}
+    
+    except Exception as e:
+        logger.error(f'Error sending file chunks: {e}')
+        return JSONResponse(content={'status': 'error', 'message': 'Error al enviar el archivo'}, status_code=500)
 
 @app.get("/get-songs-by-title/{song_title}")
 def get_songs_by_title(song_title: str):
@@ -119,6 +155,7 @@ def get_songs_by_artist(artist: str, limit: int = 4, offset: int = 0):
     if not response:
         raise HTTPException(status_code=404, detail="No songs found for the specified artist")
     return response
+
 
 if __name__ == "__main__":
     import uvicorn
