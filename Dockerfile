@@ -1,14 +1,20 @@
-# Use a lightweight Python image
+# Usa una imagen base de Python
 FROM python:latest
 
-# Set the working directory inside the container
+# Establece el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
-# Copy all your project files to the container's /app directory
+# Copia el archivo de requerimientos al contenedor
+COPY requirements.txt .
+
+# Instala las dependencias del proyecto
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copia el código de la aplicación al contenedor
 COPY . /app
 
-# Expose the port that your server will run on (8080 in this case)
-EXPOSE 8080
+# Expone el puerto en el que correrá la aplicación
+EXPOSE 8000
 
-# Set the command to run your app using Python's built-in HTTP server
-CMD ["python", "-m", "http.server", "8080"]
+# Comando para iniciar la aplicación con uvicorn
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]

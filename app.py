@@ -1,28 +1,36 @@
 from fastapi import FastAPI, HTTPException, File, UploadFile, Form, Request
 from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware import Middleware
 from pydantic import BaseModel
 from typing import List
-import os, re, json
-from mutagen.mp3 import MP3
+import os, time, json, requests
+from fastapi import FastAPI
+from discovery import discover_gateway  
+import requests, logging
 
 app = FastAPI()
 
-# Configuración del middleware de CORS
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Ajusta esto según tus necesidades de seguridad
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"],
-    expose_headers=["Content-Range", "Accept-Ranges", "Content-Length", "Content-Type", "X-File-Size"]
+    allow_headers=["*"]
 )
+logger = logging.getLogger("__main__")
+
+logging.basicConfig(
+    filename= f'logs.log',
+    filemode= 'w')
+
+logger.setLevel(logging.DEBUG)# TODO: Set this from input
+
+File
 
 # Modelos de datos
 class Song(BaseModel):
     # id: int
-    filr: bin
     title: str
     artist: str
     genre: str
@@ -41,72 +49,76 @@ songs = [
         "img":"music/sleep-token-aqua-regia_cover.jpg"
     }
 ]
-    
+
+BaseUrl = 'http://localhost:8002/gw'
+
+def get_leader_url():
+    gateway_ip = discover_gateway()
+    if not gateway_ip:
+        raise HTTPException(status_code=500, detail="No se pudo encontrar el gateway líder")
+    return f'http://{gateway_ip}:8001/gw'
+
 @app.get("/get-songs", response_model=List[Song])
 def get_songs(limit: int = 4, offset: int = 0):
-    # Devuelve un subconjunto de canciones basado en limit y offset
-    return songs[offset:offset + limit]
+    base_url = get_leader_url() 
+    logger.info("url " + f'{base_url}/get-songs')
+    response = requests.get(f'{base_url}/get-songs')
+    logger.info(f'response \n {response}')
+    data = response.json()
+    return data
+    # return songs[offset:offset + limit]
 
-@app.post("/save-song", response_model=Song)
-def save_song(song: Song):
-    songs.append(song.dict())
-    return song
+@app.post("/save-song")
+def save_song(song:dict):
+    base_url = get_leader_url() 
+    file = song['file']
+    response = requests.post(f'{base_url}/store-song-file', json = song)
+    return response.status_code
 
-@app.post("/get-songs-by-title/{song_title}", response_model=Song)
+@app.get("/get-songs-by-title/{song_title}")
 def get_songs_by_title(song_title: str):
-    print(song_title)
-    # Busca la canción ignorando mayúsculas y minúsculas
-    song = next((song for song in songs if song["title"].lower() == song_title.lower()), None)
-    if song is None:
-        raise HTTPException(status_code=404, detail="Song not found")
-    return song
-
-@app.post("/get-songs-by-genre/{genre}", response_model=List[Song])
-def get_songs_by_genre(genre: str, limit: int = 4, offset: int = 0):
-    filtered_songs = [song for song in songs if song["genre"].lower() == genre.lower()]
-    if not filtered_songs:
-        raise HTTPException(status_code=404, detail="No songs found for the specified genre")
-    return filtered_songs[offset:offset + limit]
-
-@app.post("/get-songs-by-artist/{artist}", response_model=List[Song]) #TODO Hacer esto en el back
-def get_songs_by_artist(genre: str, limit: int = 4, offset: int = 0):
-    filtered_songs = [song for song in songs if song["genre"].lower() == genre.lower()]
-    if not filtered_songs:
-        raise HTTPException(status_code=404, detail="No songs found for the specified genre")
-    return filtered_songs[offset:offset + limit]
-
-@app.post("/store-song-file")
-def store_song_file(song_title: str, request: Request):
-    return "Ok"
-
-@app.post("/store-song-file")
-def store_song_file(song_title: str, request: Request):
-    return "Ok"
-
-
-
-# @app.get("/songs/download/{song_id}")
-# def download_song(song_id: int):
-#     song = next((song for song in songs if song["id"] == song_id), None)
-#     if song is None:
-#         raise HTTPException(status_code=404, detail="Song not found")
-#     return FileResponse(song["address"], media_type='audio/mpeg', filename=song["title"])
-
+    base_url = get_leader_url() 
+    logger.info(f'song title {song_title}')
     
-# @app.get("/songs/play/{song_id}")
-# def play_song(song_id: int):
-#     song = next((song for song in songs if song["id"] == song_id), None)
-#     if song is None:
-#         raise HTTPException(status_code=404, detail="Song not found")
-#     return {"address": song["address"]}
+    response = requests.post(f'{base_url}/get-songs-by-title', json = {"title": song_title})
+    result = []
+    for item in response.json():
+        result.append({
+            'title': item['title'],
+            'artist': item['artist'],
+            'genre': item['genre'],
+            'album': item['album'],
+        })
+    return result
 
-# @app.get("/songs/pause")
-# def pause_song():
-#     return {"message": "Song paused"}
+@app.get("/get-songs-by-genre/{genre}")
+def get_songs_by_genre(genre: str, limit: int = 4, offset: int = 0):
+    base_url = get_leader_url() 
+    logger.info(f'genre {genre}')
+    response = requests.post(f'{base_url}/get-songs-by-genre', json = {'genre': genre})
+    result = []
+    for item in response.json():
+        result.append({
+            'title': item['title'],
+            'artist': item['artist'],
+            'genre': item['genre'],
+            'album': item['album'],
+        })
+    logger.info(f'response get song genre {response.content}')
 
-# @app.get("/songs/resume")
-# def resume_song():
-#     return {"message": "Song resumed"}
+    if not response:
+        raise HTTPException(status_code=404, detail="No songs found for the specified genre")
+    return result
+    # return response[offset:offset + limit]
+
+@app.post("/get-songs-by-artist/{artist}") #TODO Hacer esto en el back
+def get_songs_by_artist(artist: str, limit: int = 4, offset: int = 0):
+    base_url = get_leader_url() 
+    response = requests.post(f'{base_url}/get-songs-by-artist', json = {'artist': artist})
+    
+    if not response:
+        raise HTTPException(status_code=404, detail="No songs found for the specified artist")
+    return response
 
 if __name__ == "__main__":
     import uvicorn
