@@ -1,10 +1,9 @@
 from fastapi import FastAPI, HTTPException, File, UploadFile, Form, Request
-from fastapi.responses import FileResponse, StreamingResponse, JSONResponse
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from starlette.middleware import Middleware
 from pydantic import BaseModel
 from typing import List
-import os, time, json, requests, socket, logging
+import time, requests, socket, logging, hashlib, threading, base64
 from fastapi import FastAPI
 from discovery import discover_gateway  
 
@@ -111,6 +110,24 @@ def save_song(
         logger.error(f'Error sending file chunks: {e}')
         return JSONResponse(content={'status': 'error', 'message': 'Error al enviar el archivo'}, status_code=500)
 
+@app.post("/get-song-file")
+def get_song_file(title, artist, album):
+    key = get_sha_repr(title + artist + album)
+    base_url = get_leader_url() 
+    logger.info(f'Getting song {title}')
+
+    socket_ip, socket_port = _create_udp_socket()
+    file_transfer_thread = threading.Thread(target=_receive_file_data, args=(socket_ip, title), daemon=True)
+    file_transfer_thread.start()
+
+    response = requests.get(f'{base_url}/get-song-file', json={'song_key': key, 'udp_ip': socket_ip, 'udp_port': socket_port, 'start_chunk':0})
+    while file_transfer_thread.is_alive():
+        time.sleep(1)
+    
+    data = response.json()
+    return data
+
+
 @app.get("/get-songs-by-title/{song_title}")
 def get_songs_by_title(song_title: str):
     base_url = get_leader_url() 
@@ -155,6 +172,57 @@ def get_songs_by_artist(artist: str, limit: int = 4, offset: int = 0):
     if not response:
         raise HTTPException(status_code=404, detail="No songs found for the specified artist")
     return response
+
+def get_sha_repr(data: str) -> int:
+    """Return SHA-1 hash representation of a string as an integer."""
+    return int(hashlib.sha1(data.encode()).hexdigest(), 16)
+
+def _create_udp_socket():
+        """
+        Create and bind a UDP socket to an available port.
+        Returns:
+            udp_socket: The UDP socket object.
+            port (int): The port number the socket is bound to.
+        """
+        ip = socket.gethostbyname(socket.gethostbyname())
+        udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        udp_socket.bind((ip, 0))  # Bind to any available port
+        port = udp_socket.getsockname()[1]
+        logger.info(f"UDP socket created at {ip}:{port}")
+        return udp_socket, port
+
+def _receive_file_data(udp_socket, song_title: str):
+        """
+        Receive file data over the UDP socket and send it to storage_services.
+        Args:
+            udp_socket: The UDP socket object.
+            file_id (str): Identifier for the file being received.
+        """
+        try:
+            logger.info(f"Listening for file data on UDP socket for file ID: {song_title}")
+            start = 0
+            chunk_num = 0
+            while True:
+                file_data = bytearray()  # Use bytearray to accumulate binary file data
+                data, addr = udp_socket.recvfrom(50000)  # Buffer size of 1024 bytes
+
+                if data:
+                    logger.info(f"Received {len(data)} bytes from {addr} via UDP")
+                    bytes_decoded = base64.b64decode(data)
+                    file_data.extend(bytes_decoded)  # Accumulate received data
+                    # TODO comunicaarse con front y decod
+                    start += 50000 #FIXME: coger el tamannno dinamicamente de data
+                    chunk_num += 1
+                else:
+                    break
+            logger.info(f"File data for {song_title} received and sended to storage services")
+
+        except Exception as e:
+            logger.error(f"Error receiving file data: {e}")
+
+        finally:
+            udp_socket.close()
+            logger.info(f"UDP socket closed for file ID: {song_title}")
 
 
 if __name__ == "__main__":
