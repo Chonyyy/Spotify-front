@@ -78,7 +78,7 @@ $(document).ready(function () {
         $('.music-player .description h5').text(songArtist);
         $('.music-player .description p').text('Best of 2024');
 
-        const url = `${apiUrl}/stream/${encodeURIComponent(songTitle)}`;
+        const url = `${apiUrl}/get-song-file/${encodeURIComponent(songTitle)}`;
         const audioElement = document.getElementById('audio-player');
         audioElement.src = url
         audioElement.play()
@@ -267,7 +267,7 @@ $(document).ready(function () {
     }
 
     document.getElementById('listen-pedro').addEventListener('click', function() {
-        const url = `${apiUrl}/stream/${encodeURIComponent("Pedro")}`;
+        const url = `${apiUrl}/get-song-file/${encodeURIComponent("Pedro")}`;
         audioElementPedro.src = url
         audioElementPedro.play();
     });

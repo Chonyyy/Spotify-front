@@ -26,6 +26,7 @@
         <p><strong>Address:</strong> <span id="meta-address">N/A</span></p>
         <p><strong>Image:</strong> <img id="meta-img" src="" alt="Cover Image" style="max-width: 100px; max-height: 100px;" /></p>
     </div>
+    <button id="edit-metadata-button">Edit Metadata</button>
     <button id="upload-button">Upload</button>
 </div>
 
@@ -41,6 +42,7 @@
     const metaAddress = document.getElementById('meta-address');
     const metaImg = document.getElementById('meta-img');
     const uploadButton = document.getElementById('upload-button');
+    const editMetadataButton = document.getElementById('edit-metadata-button');
 
     let selectedFile;
 
@@ -68,7 +70,6 @@
     });
 
     async function handleFiles(files) {
-        console.log("files" + files + "files[0]"+ files[0])
         selectedFile = files[0];
         if (selectedFile && selectedFile.type.startsWith('audio/')) {
             try {
@@ -105,6 +106,20 @@
         }
     }
 
+    editMetadataButton.addEventListener('click', () => {
+        // Solicitar al usuario que ingrese los metadatos manualmente
+        const newTitle = prompt("Ingrese el título:", metaTitle.textContent);
+        const newArtist = prompt("Ingrese el artista:", metaArtist.textContent);
+        const newAlbum = prompt("Ingrese el álbum:", metaAlbum.textContent);
+        const newGenre = prompt("Ingrese el género:", metaGenre.textContent);
+
+        // Actualizar los elementos de metadatos
+        metaTitle.textContent = newTitle || 'N/A';
+        metaArtist.textContent = newArtist || 'N/A';
+        metaAlbum.textContent = newAlbum || 'N/A';
+        metaGenre.textContent = newGenre || 'N/A';
+    });
+
     uploadButton.addEventListener('click', async () => {
         if (!selectedFile) {
             alert('Please select a file first.');
@@ -117,21 +132,6 @@
         formData.append('artist', metaArtist.textContent);
         formData.append('album', metaAlbum.textContent);
         formData.append('genre', metaGenre.textContent);
-        // formData.append('address', metaAddress.textContent);
-
-        // if (metaImg.src) {
-        //     const response = await fetch(metaImg.src);
-        //     const blob = await response.blob();
-        //     formData.append('image', blob, 'cover.jpg');
-        // }
-
-        payload = {
-            'title': metaTitle.textContent,
-            'artist': metaArtist.textContent,
-            'album': metaAlbum.textContent,
-            'genre': metaGenre.textContent,
-            'file': selectedFile
-        }
 
         try {
             const response = await axios.post('http://localhost:8000/save-song', formData)
