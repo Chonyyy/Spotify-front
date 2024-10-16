@@ -63,6 +63,8 @@ def get_songs(limit: int = 4, offset: int = 0):
     response = requests.get(f'{base_url}/get-songs')
     logger.info(f'response \n {response}')
     data = response.json()
+    if 'id' in data:
+        return []
     return data
     # return songs[offset:offset + limit]
 
