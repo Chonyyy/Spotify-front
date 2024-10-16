@@ -5,7 +5,7 @@ from pydantic import BaseModel
 from typing import List
 import time, requests, socket, logging, hashlib, threading, base64
 from fastapi import FastAPI
-from discovery import discover_gateway  
+from extra.discovery import discover_gateway  
 
 app = FastAPI()
 
@@ -63,8 +63,10 @@ def get_songs(limit: int = 4, offset: int = 0):
     response = requests.get(f'{base_url}/get-songs')
     logger.info(f'response \n {response}')
     data = response.json()
+    if 'id' in data:
+        return[]
     return data
-    # return songs[offset:offset + limit]
+    # return data[offset:offset + limit]
 
 @app.post("/save-song")
 def save_song(
