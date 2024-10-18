@@ -1,11 +1,19 @@
 INFO:__main__:Receiving multicast messages from 224.1.1.3 for role gateway
 INFO:__main__:Estoy en el try
-INFO:__main__:Discovered node: 172.17.0.5 with role: gateway
-INFO:__main__:Detected leader: 172.17.0.5, 1189594372406572743097589910687015746328818734332
-INFO:__main__:Discovered entry point: 172.17.0.5
-INFO:__main__:Listening socket created at 172.17.0.2:45082
-INFO:__main__:Sending song Pedro Pedro to http://172.17.0.5:8001/gw
-INFO:__main__:Socket received: 172.17.0.5:56786
+INFO:__main__:Discovered node: 172.20.240.4 with role: gateway
+INFO:__main__:Detected leader: 172.20.240.4, 871821887926060377538993876241074296744107535490
+INFO:__main__:Discovered entry point: 172.20.240.4
+INFO:__main__:url http://172.20.240.4:8001/gw/get-songs
+INFO:__main__:response 
+ <Response [200]>
+INFO:__main__:Receiving multicast messages from 224.1.1.3 for role gateway
+INFO:__main__:Estoy en el try
+INFO:__main__:Discovered node: 172.20.240.4 with role: gateway
+INFO:__main__:Detected leader: 172.20.240.4, 871821887926060377538993876241074296744107535490
+INFO:__main__:Discovered entry point: 172.20.240.4
+INFO:__main__:Listening socket created at 172.20.240.10:52137
+INFO:__main__:Sending song Pedro to http://172.20.240.4:8001/gw
+INFO:__main__:Socket received: 172.20.240.14:56249
 INFO:__main__:Chunk_0 sent
 INFO:__main__:Received confirmation: Data processed
 INFO:__main__:confirmation message sent
@@ -32,35 +40,433 @@ INFO:__main__:=== FILE TRANSFER COMPLETED 5===
 INFO:__main__:=== CLOSING SOCKETS ===
 INFO:__main__:Receiving multicast messages from 224.1.1.3 for role gateway
 INFO:__main__:Estoy en el try
-INFO:__main__:Discovered node: 172.17.0.5 with role: gateway
-INFO:__main__:Detected leader: 172.17.0.5, 1189594372406572743097589910687015746328818734332
-INFO:__main__:Discovered entry point: 172.17.0.5
-INFO:__main__:url http://172.17.0.5:8001/gw/get-songs
+INFO:__main__:Discovered node: 172.20.240.4 with role: gateway
+INFO:__main__:Detected leader: 172.20.240.4, 871821887926060377538993876241074296744107535490
+INFO:__main__:Discovered entry point: 172.20.240.4
+INFO:__main__:url http://172.20.240.4:8001/gw/get-songs
 INFO:__main__:response 
  <Response [200]>
 INFO:__main__:Receiving multicast messages from 224.1.1.3 for role gateway
 INFO:__main__:Estoy en el try
-INFO:__main__:Discovered node: 172.17.0.5 with role: gateway
-INFO:__main__:Detected leader: 172.17.0.5, 1189594372406572743097589910687015746328818734332
-INFO:__main__:Discovered entry point: 172.17.0.5
-INFO:__main__:Getting song Pedro Pedro
-INFO:__main__:Listening socket created at 172.17.0.2:39938
+INFO:__main__:Discovered node: 172.20.240.4 with role: gateway
+INFO:__main__:Detected leader: 172.20.240.4, 871821887926060377538993876241074296744107535490
+INFO:__main__:Discovered entry point: 172.20.240.4
+INFO:__main__:Listening socket created at 172.20.240.10:34190
+INFO:__main__:Sending song Pedro to http://172.20.240.4:8001/gw
+INFO:__main__:Socket received: 172.20.240.14:47230
+INFO:__main__:Chunk_0 sent
+INFO:__main__:Received confirmation: Data processed
+INFO:__main__:confirmation message sent
+INFO:__main__:Sending chunk 1
+INFO:__main__:Chunk sent
+INFO:__main__:Received confirmation: Data processed
+INFO:__main__:confirmation message sent
+INFO:__main__:Sending chunk 2
+INFO:__main__:Chunk sent
+INFO:__main__:Received confirmation: Data processed
+INFO:__main__:confirmation message sent
+INFO:__main__:Sending chunk 3
+INFO:__main__:Chunk sent
+INFO:__main__:Received confirmation: Data processed
+INFO:__main__:confirmation message sent
+INFO:__main__:Sending chunk 4
+INFO:__main__:Chunk sent
+INFO:__main__:Received confirmation: Data processed
+INFO:__main__:confirmation message sent
+INFO:__main__:Sending chunk 5
+INFO:__main__:Chunk sent
+INFO:__main__:Received confirmation: Data processed
+INFO:__main__:=== FILE TRANSFER COMPLETED 5===
+INFO:__main__:=== CLOSING SOCKETS ===
+INFO:__main__:Receiving multicast messages from 224.1.1.3 for role gateway
+INFO:__main__:Estoy en el try
+INFO:__main__:Discovered node: 172.20.240.4 with role: gateway
+INFO:__main__:Detected leader: 172.20.240.4, 871821887926060377538993876241074296744107535490
+INFO:__main__:Discovered entry point: 172.20.240.4
+INFO:__main__:url http://172.20.240.4:8001/gw/get-songs
+INFO:__main__:response 
+ <Response [200]>
+INFO:__main__:Receiving multicast messages from 224.1.1.3 for role gateway
+INFO:__main__:Estoy en el try
+INFO:__main__:Discovered node: 172.20.240.4 with role: gateway
+INFO:__main__:Detected leader: 172.20.240.4, 871821887926060377538993876241074296744107535490
+INFO:__main__:Discovered entry point: 172.20.240.4
+INFO:__main__:Getting song Pedro
+INFO:__main__:Listening socket created at 172.20.240.10:59582
 INFO:__main__:response from initial request:
-{'ip': '172.17.0.5', 'port': 42886}
-INFO:__main__:Received 50000 bytes from ('172.17.0.5', 39527) via UDP
-DEBUG:__main__:Recieved chunk Pedro Pedro0 and id 1220106279873702289455338884612242068198031935829
+{'ip': '172.20.240.14', 'port': 46047}
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 43251) via UDP
+DEBUG:__main__:Recieved chunk Pedro0 and id 947617448267035553373595988296874147994189940487
 INFO:__main__:Received message from server: Sending next chunk
-INFO:__main__:Received 50000 bytes from ('172.17.0.5', 39527) via UDP
-DEBUG:__main__:Recieved chunk Pedro Pedro1 and id 360492767136905664881206321381967209974361771379
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 43251) via UDP
+DEBUG:__main__:Recieved chunk Pedro1 and id 935120389199893773218801735939881569557519606021
 INFO:__main__:Received message from server: Sending next chunk
-INFO:__main__:Received 50000 bytes from ('172.17.0.5', 39527) via UDP
-DEBUG:__main__:Recieved chunk Pedro Pedro2 and id 260596640809711905249009638487882729468873380225
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 43251) via UDP
+DEBUG:__main__:Recieved chunk Pedro2 and id 1077050797584459134245955368023695631083132588072
 INFO:__main__:Received message from server: Sending next chunk
-INFO:__main__:Received 50000 bytes from ('172.17.0.5', 39527) via UDP
-DEBUG:__main__:Recieved chunk Pedro Pedro3 and id 1097345263777742633538279204949992222434829034456
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 43251) via UDP
+DEBUG:__main__:Recieved chunk Pedro3 and id 529918508314814436443860766788326868880367986781
 INFO:__main__:Received message from server: Sending next chunk
-INFO:__main__:Received 50000 bytes from ('172.17.0.5', 39527) via UDP
-DEBUG:__main__:Recieved chunk Pedro Pedro4 and id 331414672614011314904318358342945569748009414388
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 43251) via UDP
+DEBUG:__main__:Recieved chunk Pedro4 and id 778529623230116614455690955118535862183106660561
 INFO:__main__:Received message from server: Sending next chunk
-INFO:__main__:Received 29751 bytes from ('172.17.0.5', 39527) via UDP
-DEBUG:__main__:Recieved chunk Pedro Pedro5 and id 1233333107461875261031381722053015654011895527890
+INFO:__main__:Received 29751 bytes from ('172.20.240.14', 43251) via UDP
+DEBUG:__main__:Recieved chunk Pedro5 and id 489852036316803220805287293758701831082469997828
+INFO:__main__:Receiving multicast messages from 224.1.1.3 for role gateway
+INFO:__main__:Estoy en el try
+INFO:__main__:Discovered node: 172.20.240.4 with role: gateway
+INFO:__main__:Detected leader: 172.20.240.4, 871821887926060377538993876241074296744107535490
+INFO:__main__:Discovered entry point: 172.20.240.4
+INFO:__main__:url http://172.20.240.4:8001/gw/get-songs
+INFO:__main__:response 
+ <Response [200]>
+INFO:__main__:Receiving multicast messages from 224.1.1.3 for role gateway
+INFO:__main__:Estoy en el try
+INFO:__main__:Discovered node: 172.20.240.4 with role: gateway
+INFO:__main__:Detected leader: 172.20.240.4, 871821887926060377538993876241074296744107535490
+INFO:__main__:Discovered entry point: 172.20.240.4
+INFO:__main__:Listening socket created at 172.20.240.10:34312
+INFO:__main__:Sending song Skrrt Skrrt Compilation to http://172.20.240.4:8001/gw
+INFO:__main__:Socket received: 172.20.240.14:37512
+INFO:__main__:Chunk_0 sent
+INFO:__main__:Received confirmation: Data processed
+INFO:__main__:confirmation message sent
+INFO:__main__:Sending chunk 1
+INFO:__main__:Chunk sent
+INFO:__main__:Received confirmation: Data processed
+INFO:__main__:confirmation message sent
+INFO:__main__:Sending chunk 2
+INFO:__main__:Chunk sent
+INFO:__main__:Received confirmation: Data processed
+INFO:__main__:confirmation message sent
+INFO:__main__:Sending chunk 3
+INFO:__main__:Chunk sent
+INFO:__main__:Received confirmation: Data processed
+INFO:__main__:confirmation message sent
+INFO:__main__:Sending chunk 4
+INFO:__main__:Chunk sent
+INFO:__main__:Received confirmation: Data processed
+INFO:__main__:confirmation message sent
+INFO:__main__:Sending chunk 5
+INFO:__main__:Chunk sent
+INFO:__main__:Received confirmation: Data processed
+INFO:__main__:confirmation message sent
+INFO:__main__:Sending chunk 6
+INFO:__main__:Chunk sent
+INFO:__main__:Received confirmation: Data processed
+INFO:__main__:confirmation message sent
+INFO:__main__:Sending chunk 7
+INFO:__main__:Chunk sent
+INFO:__main__:Received confirmation: Data processed
+INFO:__main__:confirmation message sent
+INFO:__main__:Sending chunk 8
+INFO:__main__:Chunk sent
+INFO:__main__:Received confirmation: Data processed
+INFO:__main__:confirmation message sent
+INFO:__main__:Sending chunk 9
+INFO:__main__:Chunk sent
+INFO:__main__:Received confirmation: Data processed
+INFO:__main__:confirmation message sent
+INFO:__main__:Sending chunk 10
+INFO:__main__:Chunk sent
+INFO:__main__:Received confirmation: Data processed
+INFO:__main__:confirmation message sent
+INFO:__main__:Sending chunk 11
+INFO:__main__:Chunk sent
+INFO:__main__:Received confirmation: Data processed
+INFO:__main__:confirmation message sent
+INFO:__main__:Sending chunk 12
+INFO:__main__:Chunk sent
+INFO:__main__:Received confirmation: Data processed
+INFO:__main__:confirmation message sent
+INFO:__main__:Sending chunk 13
+INFO:__main__:Chunk sent
+INFO:__main__:Received confirmation: Data processed
+INFO:__main__:confirmation message sent
+INFO:__main__:Sending chunk 14
+INFO:__main__:Chunk sent
+INFO:__main__:Received confirmation: Data processed
+INFO:__main__:confirmation message sent
+INFO:__main__:Sending chunk 15
+INFO:__main__:Chunk sent
+INFO:__main__:Received confirmation: Data processed
+INFO:__main__:confirmation message sent
+INFO:__main__:Sending chunk 16
+INFO:__main__:Chunk sent
+INFO:__main__:Received confirmation: Data processed
+INFO:__main__:confirmation message sent
+INFO:__main__:Sending chunk 17
+INFO:__main__:Chunk sent
+INFO:__main__:Received confirmation: Data processed
+INFO:__main__:confirmation message sent
+INFO:__main__:Sending chunk 18
+INFO:__main__:Chunk sent
+INFO:__main__:Received confirmation: Data processed
+INFO:__main__:confirmation message sent
+INFO:__main__:Sending chunk 19
+INFO:__main__:Chunk sent
+INFO:__main__:Received confirmation: Data processed
+INFO:__main__:=== FILE TRANSFER COMPLETED 19===
+INFO:__main__:=== CLOSING SOCKETS ===
+INFO:__main__:Receiving multicast messages from 224.1.1.3 for role gateway
+INFO:__main__:Estoy en el try
+INFO:__main__:Discovered node: 172.20.240.4 with role: gateway
+INFO:__main__:Detected leader: 172.20.240.4, 871821887926060377538993876241074296744107535490
+INFO:__main__:Discovered entry point: 172.20.240.4
+INFO:__main__:url http://172.20.240.4:8001/gw/get-songs
+INFO:__main__:response 
+ <Response [200]>
+INFO:__main__:Receiving multicast messages from 224.1.1.3 for role gateway
+INFO:__main__:Estoy en el try
+INFO:__main__:Discovered node: 172.20.240.4 with role: gateway
+INFO:__main__:Detected leader: 172.20.240.4, 871821887926060377538993876241074296744107535490
+INFO:__main__:Discovered entry point: 172.20.240.4
+INFO:__main__:Getting song Skrrt Skrrt Compilation
+INFO:__main__:Listening socket created at 172.20.240.10:33128
+INFO:__main__:response from initial request:
+{'ip': '172.20.240.14', 'port': 39140}
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 35021) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation0 and id 207670628035766046090139574452855807195867930368
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 35021) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation1 and id 597495104603832581884173785460149955521280243814
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 35021) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation2 and id 1080460593454898058025259324366243616361996108944
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 35021) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation3 and id 106457673034792051799089961943256870120285601071
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 35021) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation4 and id 760938314488418113292657026562864923554593219105
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 35021) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation5 and id 700780052339390225030382107393743966514134630688
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 35021) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation6 and id 1038456099890331507451309761202681028126569762598
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 35021) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation7 and id 359191747773634267172809710962838452839949919702
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 35021) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation8 and id 379351736116613152047576186879225102818691862613
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 35021) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation9 and id 473663435018621066280639082428961154556353828906
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 35021) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation10 and id 335085522869178624791416215706910184440128774083
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 35021) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation11 and id 503264897746913841415012592944422316038960477593
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 35021) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation12 and id 330832692123950374519668852141661885299265888090
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 35021) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation13 and id 1366480394601273501961107928084067865005987552119
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 35021) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation14 and id 125404366654049568572109655031263794978173603375
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 35021) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation15 and id 203354398152966642954905902875736857426704842049
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 35021) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation16 and id 1413887429668117607821315567127779834120616930481
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 35021) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation17 and id 869456971610704598536888066435015906612685372617
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 35021) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation18 and id 743866623168125782076687136241740886980034568668
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 43395 bytes from ('172.20.240.14', 35021) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation19 and id 864697650076619530475417557312062090003562878435
+INFO:__main__:Receiving multicast messages from 224.1.1.3 for role gateway
+INFO:__main__:Estoy en el try
+INFO:__main__:Discovered node: 172.20.240.4 with role: gateway
+INFO:__main__:Detected leader: 172.20.240.4, 871821887926060377538993876241074296744107535490
+INFO:__main__:Discovered entry point: 172.20.240.4
+INFO:__main__:url http://172.20.240.4:8001/gw/get-songs
+INFO:__main__:response 
+ <Response [200]>
+INFO:__main__:Receiving multicast messages from 224.1.1.3 for role gateway
+INFO:__main__:Estoy en el try
+INFO:__main__:Discovered node: 172.20.240.4 with role: gateway
+INFO:__main__:Detected leader: 172.20.240.4, 871821887926060377538993876241074296744107535490
+INFO:__main__:Discovered entry point: 172.20.240.4
+INFO:__main__:Getting song Pedro
+INFO:__main__:Listening socket created at 172.20.240.10:56405
+INFO:__main__:response from initial request:
+{'ip': '172.20.240.14', 'port': 58497}
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 41277) via UDP
+DEBUG:__main__:Recieved chunk Pedro0 and id 947617448267035553373595988296874147994189940487
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 41277) via UDP
+DEBUG:__main__:Recieved chunk Pedro1 and id 935120389199893773218801735939881569557519606021
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 41277) via UDP
+DEBUG:__main__:Recieved chunk Pedro2 and id 1077050797584459134245955368023695631083132588072
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 41277) via UDP
+DEBUG:__main__:Recieved chunk Pedro3 and id 529918508314814436443860766788326868880367986781
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 41277) via UDP
+DEBUG:__main__:Recieved chunk Pedro4 and id 778529623230116614455690955118535862183106660561
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 29751 bytes from ('172.20.240.14', 41277) via UDP
+DEBUG:__main__:Recieved chunk Pedro5 and id 489852036316803220805287293758701831082469997828
+INFO:__main__:Receiving multicast messages from 224.1.1.3 for role gateway
+INFO:__main__:Estoy en el try
+INFO:__main__:Discovered node: 172.20.240.4 with role: gateway
+INFO:__main__:Detected leader: 172.20.240.4, 871821887926060377538993876241074296744107535490
+INFO:__main__:Discovered entry point: 172.20.240.4
+INFO:__main__:Getting song Skrrt Skrrt Compilation
+INFO:__main__:Listening socket created at 172.20.240.10:37416
+INFO:__main__:response from initial request:
+{'ip': '172.20.240.14', 'port': 56164}
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 36588) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation0 and id 207670628035766046090139574452855807195867930368
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 36588) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation1 and id 597495104603832581884173785460149955521280243814
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 36588) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation2 and id 1080460593454898058025259324366243616361996108944
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 36588) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation3 and id 106457673034792051799089961943256870120285601071
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 36588) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation4 and id 760938314488418113292657026562864923554593219105
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 36588) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation5 and id 700780052339390225030382107393743966514134630688
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 36588) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation6 and id 1038456099890331507451309761202681028126569762598
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 36588) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation7 and id 359191747773634267172809710962838452839949919702
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 36588) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation8 and id 379351736116613152047576186879225102818691862613
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 36588) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation9 and id 473663435018621066280639082428961154556353828906
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 36588) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation10 and id 335085522869178624791416215706910184440128774083
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 36588) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation11 and id 503264897746913841415012592944422316038960477593
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 36588) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation12 and id 330832692123950374519668852141661885299265888090
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 36588) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation13 and id 1366480394601273501961107928084067865005987552119
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 36588) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation14 and id 125404366654049568572109655031263794978173603375
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 36588) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation15 and id 203354398152966642954905902875736857426704842049
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 36588) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation16 and id 1413887429668117607821315567127779834120616930481
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 36588) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation17 and id 869456971610704598536888066435015906612685372617
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 36588) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation18 and id 743866623168125782076687136241740886980034568668
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 43395 bytes from ('172.20.240.14', 36588) via UDP
+DEBUG:__main__:Recieved chunk Skrrt Skrrt Compilation19 and id 864697650076619530475417557312062090003562878435
+INFO:__main__:Receiving multicast messages from 224.1.1.3 for role gateway
+INFO:__main__:Estoy en el try
+INFO:__main__:Discovered node: 172.20.240.4 with role: gateway
+INFO:__main__:Detected leader: 172.20.240.4, 871821887926060377538993876241074296744107535490
+INFO:__main__:Discovered entry point: 172.20.240.4
+INFO:__main__:Getting song Pedro
+INFO:__main__:Listening socket created at 172.20.240.10:39710
+INFO:__main__:response from initial request:
+{'ip': '172.20.240.14', 'port': 54507}
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 55254) via UDP
+DEBUG:__main__:Recieved chunk Pedro0 and id 947617448267035553373595988296874147994189940487
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 55254) via UDP
+DEBUG:__main__:Recieved chunk Pedro1 and id 935120389199893773218801735939881569557519606021
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 55254) via UDP
+DEBUG:__main__:Recieved chunk Pedro2 and id 1077050797584459134245955368023695631083132588072
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 55254) via UDP
+DEBUG:__main__:Recieved chunk Pedro3 and id 529918508314814436443860766788326868880367986781
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 50000 bytes from ('172.20.240.14', 55254) via UDP
+DEBUG:__main__:Recieved chunk Pedro4 and id 778529623230116614455690955118535862183106660561
+INFO:__main__:Received message from server: Sending next chunk
+INFO:__main__:Received 29751 bytes from ('172.20.240.14', 55254) via UDP
+DEBUG:__main__:Recieved chunk Pedro5 and id 489852036316803220805287293758701831082469997828
+INFO:__main__:Receiving multicast messages from 224.1.1.3 for role gateway
+INFO:__main__:Estoy en el try
+INFO:__main__:Discovered node: 172.20.240.4 with role: gateway
+INFO:__main__:Detected leader: 172.20.240.4, 871821887926060377538993876241074296744107535490
+INFO:__main__:Discovered entry point: 172.20.240.4
+INFO:__main__:url http://172.20.240.4:8001/gw/get-songs
+INFO:__main__:response 
+ <Response [200]>
+INFO:__main__:Receiving multicast messages from 224.1.1.3 for role gateway
+INFO:__main__:Estoy en el try
+INFO:__main__:Discovered node: 172.20.240.4 with role: gateway
+INFO:__main__:Detected leader: 172.20.240.4, 871821887926060377538993876241074296744107535490
+INFO:__main__:Discovered entry point: 172.20.240.4
+INFO:__main__:Getting song Pedro
+INFO:__main__:Listening socket created at 172.20.240.10:58303
+INFO:__main__:response from initial request:
+{'ip': '172.20.240.14', 'port': 33480}
+INFO:__main__:Receiving multicast messages from 224.1.1.3 for role gateway
+INFO:__main__:Estoy en el try
+INFO:__main__:Discovered node: 172.20.240.4 with role: gateway
+INFO:__main__:Detected leader: 172.20.240.4, 871821887926060377538993876241074296744107535490
+INFO:__main__:Discovered entry point: 172.20.240.4
+INFO:__main__:Getting song Pedro
+INFO:__main__:Listening socket created at 172.20.240.10:39695
+INFO:__main__:response from initial request:
+{'ip': '172.20.240.4', 'port': 41619}
+INFO:__main__:Receiving multicast messages from 224.1.1.3 for role gateway
+INFO:__main__:Estoy en el try
+INFO:__main__:Discovered node: 172.20.240.4 with role: gateway
+INFO:__main__:Detected leader: 172.20.240.4, 871821887926060377538993876241074296744107535490
+INFO:__main__:Discovered entry point: 172.20.240.4
+INFO:__main__:Getting song Skrrt Skrrt Compilation
+INFO:__main__:Listening socket created at 172.20.240.10:45214
+INFO:__main__:response from initial request:
+{'ip': '172.20.240.4', 'port': 32808}
+INFO:__main__:Receiving multicast messages from 224.1.1.3 for role gateway
+INFO:__main__:Estoy en el try
+INFO:__main__:Discovered node: 172.20.240.4 with role: gateway
+INFO:__main__:Detected leader: 172.20.240.4, 871821887926060377538993876241074296744107535490
+INFO:__main__:Discovered entry point: 172.20.240.4
+INFO:__main__:url http://172.20.240.4:8001/gw/get-songs
+INFO:__main__:Receiving multicast messages from 224.1.1.3 for role gateway
+INFO:__main__:Estoy en el try
+INFO:__main__:Discovered node: 172.20.240.4 with role: gateway
+INFO:__main__:Detected leader: 172.20.240.4, 871821887926060377538993876241074296744107535490
+INFO:__main__:Discovered entry point: 172.20.240.4
+INFO:__main__:Listening socket created at 172.20.240.10:36809
+INFO:__main__:Sending song Pedro to http://172.20.240.4:8001/gw
+INFO:__main__:Socket received: 172.20.240.4:49912
+INFO:__main__:Chunk_0 sent
+INFO:__main__:Received confirmation: Data processed
+INFO:__main__:confirmation message sent
+INFO:__main__:Sending chunk 1
+INFO:__main__:Chunk sent
+INFO:__main__:Received confirmation: Data processed
+INFO:__main__:confirmation message sent
+INFO:__main__:Sending chunk 2
+INFO:__main__:Chunk sent

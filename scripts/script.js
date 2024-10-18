@@ -24,10 +24,10 @@ $(document).ready(function () {
                         <div class="item" data-song-id="${song.id}" data-song-title="${song.title}" data-song-artist="${song.artist}" data-song-image="${song.img}" data-song-url="${song.address}">
                             <div class="info">
                                 <p>${index + 1}</p>
-                                <img src="${song.img}" alt="${song.title}">
                                 <div class="details">
                                     <h5>${song.title}</h5>
-                                    <p>${song.artist}</p>
+                                    <p>${song.artist}, ${song.genre}</p>
+
                                 </div>
                             </div>
                             <div class="actions">
@@ -73,7 +73,7 @@ $(document).ready(function () {
 
     function updatePlayer(songId, songTitle, songArtist, songImage, songUrl) {
         // Actualiza la información del reproductor
-        $('.music-player .song-info img').attr('src', songImage);
+        $('.music-player .song-info img').attr('src', '../extra/jamie-street-hBzrr6m6-pc-unsplash.jpg');
         $('.music-player .description h3').text(songTitle);
         $('.music-player .description h5').text(songArtist);
         $('.music-player .description p').text('Best of 2024');
@@ -153,7 +153,6 @@ $(document).ready(function () {
                     <div class="item" data-song-id="${song.id}" data-song-title="${song.title}" data-song-artist="${song.artist}" data-song-image="${song.img}" data-song-url="${song.address}">
                         <div class="info">
                             <p>1</p>
-                            <img src="${song.img}">
                             <div class="details">
                                 <h5>${song.title}</h5>
                                 <p>${song.artist}</p>
@@ -215,7 +214,6 @@ $(document).ready(function () {
                         <div class="item" data-song-id="${song.id}" data-song-title="${song.title}" data-song-artist="${song.artist}" data-song-image="${song.img}" data-song-url="${song.address}">
                             <div class="info">
                                 <p>${index + 1}</p>
-                                <img src="${song.img}" alt="${song.title}">
                                 <div class="details">
                                     <h5>${song.title}</h5>
                                     <p>${song.artist}</p>

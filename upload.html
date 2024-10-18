@@ -26,6 +26,10 @@
         <p><strong>Address:</strong> <span id="meta-address">N/A</span></p>
         <p><strong>Image:</strong> <img id="meta-img" src="" alt="Cover Image" style="max-width: 100px; max-height: 100px;" /></p>
     </div>
+    
+    <!-- Nuevo elemento para mostrar el mensaje -->
+    <div id="message" style="display: none; color: green; margin-top: 10px;"></div>
+
     <button id="edit-metadata-button">Edit Metadata</button>
     <button id="upload-button">Upload</button>
 </div>
@@ -43,6 +47,9 @@
     const metaImg = document.getElementById('meta-img');
     const uploadButton = document.getElementById('upload-button');
     const editMetadataButton = document.getElementById('edit-metadata-button');
+    
+    // Nuevo elemento para mensajes
+    const messageDiv = document.getElementById('message');
 
     let selectedFile;
 
@@ -134,8 +141,11 @@
         formData.append('genre', metaGenre.textContent);
 
         try {
-            const response = await axios.post('http://localhost:8000/save-song', formData)
-        
+            const response = await axios.post('http://localhost:8000/save-song', formData);
+            
+            // Mostrar mensaje de éxito
+            alert('La canción se ha subido correctamente.');
+
         } catch (error) {
             console.error('Error uploading file:', error);
             alert('Upload failed.');

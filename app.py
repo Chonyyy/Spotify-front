@@ -5,7 +5,7 @@ from pydantic import BaseModel
 from typing import List
 import time, requests, socket, logging, hashlib, threading, base64
 from fastapi import FastAPI
-from discovery import discover_gateway  
+from extra.discovery import discover_gateway  
 
 app = FastAPI()
 
