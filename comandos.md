@@ -20,4 +20,4 @@ uvicorn app:app --reload --host 0.0.0.0 --port 8000
 
 ### Montar el contenedor
 
-sudo docker run -it --rm --name fastapi_container -p 8000:8000 -v $(pwd):/app fastapi:1
+sudo docker run -it --rm --network distribunet --ip 172.20.240.10 -p 8000:8000 -v $(pwd):/app fastapi:1
