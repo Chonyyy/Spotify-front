@@ -149,36 +149,45 @@ def save_song(
 
 @app.get("/get-song-file/{title}")
 def get_song_file(title):
+    socket.setdefaulttimeout(15)
     gateway_url = get_leader_url()
     logger.info(f'Getting song {title}')
 
     listening_socket, listening_port = _create_udp_socket()
     writing_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-    response = requests.post(
-        f'{gateway_url}/get-song-file', 
-        json={
-            'song_title': title, 
-            'client_ip': socket.gethostbyname(socket.gethostname()), 
-            'client_port': listening_port, 
-            'start_chunk':0
-        }
-    )
-    response = response.json()
+    def get_server_socket(start_chunk = 0):
+        response = requests.post(
+            f'{gateway_url}/get-song-file', 
+            json={
+                'song_title': title, 
+                'client_ip': socket.gethostbyname(socket.gethostname()), 
+                'client_port': listening_port, 
+                'start_chunk':start_chunk
+            }
+        )
+        response = response.json()
 
-    logger.info(f'response from initial request:\n{response}')
+        logger.info(f'response from initial request:\n{response}')
 
-    if not 'ip' in response or not 'port' in response:
-        return JSONResponse(content={'status': 'error', 'message': 'No se recibió información del socket'}, status_code=500)
+        if not 'ip' in response or not 'port' in response:
+            return JSONResponse(content={'status': 'error', 'message': 'No se recibió información del socket'}, status_code=500)
 
-    server_addr = (response['ip'], response['port'])
+        server_addr = (response['ip'], response['port'])
+        return server_addr
+    
+    server_addr = get_server_socket()
 
-    def iter_chunks():
-        try:
-            start = 0
-            chunk_num = 0
-            chunk_size = 50000
-            while True:
+    def iter_chunks(server_addr, gateway_url):
+        start = 0
+        chunk_num = 0
+        chunk_size = 50000
+        retries_max = 5
+        retry_time = 5
+        retries = 0
+        while True:
+            logger.debug('Starting data transfer')
+            try:
                 data, addr = listening_socket.recvfrom(chunk_size)  # Buffer size of 1024 bytes
                 if not data:
                     break
@@ -198,22 +207,30 @@ def get_song_file(title):
                 if server_message == 'Complete':
                     logger.info('Completed receiving all chunks. Closing the socket.')
                     break
-                
-            logger.info(f"File data for {title} received and sended to storage services")
 
-        except Exception as e:
-            logger.error(f"Error receiving file data: {e}")
+            except socket.timeout:# This is for when the gateway falls
+                gateway_url = get_leader_url()
+                server_addr = get_server_socket(chunk_num)
+                logger.debug(f'socket timeout')#reopen the socket ?????
+                retries += 1
+                if retries > retries_max:
+                    writing_socket.close()  
+                    break
+                time.sleep(retry_time)
 
-        except socket.timeout:
-            logger.debug(f'socket timout')
-        finally:
-            # Cleanup
-            listening_socket.close()
-            writing_socket.close()  
+            except Exception as e:
+                logger.error(f"Error receiving file data: {e}")
+                break
+        yield
+        logger.info(f"File data for {title} received and sended to storage services")
 
+        # finally:
+        #     # Cleanup
+        #     listening_socket.close()
+        #     writing_socket.close()  
 
     return StreamingResponse(
-        iter_chunks(),  # Chunks devueltos por la función
+        iter_chunks(server_addr, gateway_url),  # Chunks devueltos por la función
         status_code=200,  # Usamos 200 si no manejamos Range directamente
         media_type="audio/mp3",  # O el formato que uses, como audio/mp3
     )
