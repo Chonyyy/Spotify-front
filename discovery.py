@@ -51,7 +51,7 @@ def receive_multicast(role, timeout=10):
 # Método para realizar el descubrimiento
 def discover_gateway():
     retries = 2
-    retry_interval = 5
+    retry_interval = 1
 
     for _ in range(retries):
         multi_response = receive_multicast('gateway')
