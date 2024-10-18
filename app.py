@@ -63,10 +63,21 @@ def get_songs(limit: int = 4, offset: int = 0):
     response = requests.get(f'{base_url}/get-songs')
     logger.info(f'response \n {response}')
     data = response.json()
-    if 'id' in data:
-        return []
-    return data
-    # return songs[offset:offset + limit]
+    logger.info(f'data: {data}')
+    logger.info(type(data))
+
+    def remove_items(test_list, item): 
+    
+        # using list comprehension to perform the task 
+        res = [i for i in test_list if i != item] 
+        return res 
+    
+    if isinstance(data, list):
+        res = remove_items(data, 'id')
+        res = remove_items(res, 'ip') 
+        logger.info(f'data res: {res}')
+        return res
+    return []
 
 @app.post("/save-song")
 def save_song(
